@@ -1,14 +1,20 @@
 require 'rails_helper'
 describe User, type: :model do
-  let(:user) { Factorybot.build(:user) }
+  let(:user) { build(:user) }
 
   describe 'ユーザー新規登録' do
     context '新規登録ができる場合' do
       it '名前・メールアドレス・パスワードが入力されている場合' do
+        expect(user).to be_valid
       end
       it 'メールアドレスの入力が半角文字だけの場合' do
+        user.email = 'test@test.com'
+        expect(user).to be_valid
       end
       it 'パスワードが8文字以上32文字以下で半角英数字が入力されている場合' do
+        user.password = '1234567890test'
+        user.password_confirmation = user.password
+        expect(user).to be_valid
       end
     end
 
