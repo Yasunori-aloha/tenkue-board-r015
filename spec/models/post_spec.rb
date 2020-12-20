@@ -15,8 +15,14 @@ RSpec.describe Post, type: :model do
     end
     context '新規投稿ができない場合' do
       it '投稿の内容が入力されていない' do
+        post.content = nil
+        post.valid?
+        expect(post.errors.full_messages).to include "Content can't be blank"
       end
       it '内容が141文字以上で入力されている' do
+        post.content = Faker::Lorem.characters(number: 141)
+        post.valid?
+        expect(post.errors.full_messages).to include "Content is too long (maximum is 140 characters)"
       end
     end
   end
